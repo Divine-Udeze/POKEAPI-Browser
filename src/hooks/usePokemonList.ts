@@ -43,3 +43,4 @@ export function usePokemonList(limit = 151): UsePokemonListResult {
   }, [limit]);
 
   return { pokemonList, loading, error };
+}
