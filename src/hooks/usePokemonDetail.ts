@@ -15,7 +15,6 @@ export function usePokemonDetail(name: string | null): UsePokemonDetailResult {
 
   useEffect(() => {
     if (!name) {
-      setPokemon(null);
       return;
     }
 
@@ -46,6 +45,10 @@ export function usePokemonDetail(name: string | null): UsePokemonDetailResult {
       cancelled = true;
     };
   }, [name]);
+
+  if(!name) {
+    return { pokemon: null, loading: false, error: null };
+  }
 
   return { pokemon, loading, error };
 }
