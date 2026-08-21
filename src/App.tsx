@@ -40,7 +40,9 @@ function App() {
           {detailError && <p className="text-red-600">{detailError}</p>}
           {detail && (
             <div className="text-center">
-              <img src={detail.sprites.front_default ?? ''} alt={detail.name} className="mx-auto" />
+              {detail.sprites.front_default && (
+              <img src={detail.sprites.front_default} alt={detail.name} className="mx-auto" />
+              )}
               <h2 className="text-xl font-bold capitalize mt-2">{detail.name}</h2>
               <p className="text-sm text-gray-500 capitalize">
                 {detail.types.map((t) => t.type.name).join(', ')}

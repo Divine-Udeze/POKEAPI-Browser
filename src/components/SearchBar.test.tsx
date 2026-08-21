@@ -18,6 +18,6 @@ describe('SearchBar', () => {
     const user = userEvent.setup();
     await user.type(input, 'char');
 
-    expect(handleChange).toHaveBeenCalled();
+    expect(handleChange).toHaveBeenCalledWith('c');
   });
 });
