@@ -14,22 +14,22 @@ export function usePokemonList(limit = 151): UsePokemonListResult {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let cancelled = false;
+    const controller = new AbortController();
+
 
     async function fetchList() {
       setLoading(true);
       setError(null);
       try {
-        const data = await getPokemonList(limit, 0);
-        if (!cancelled) {
+        const data = await getPokemonList(limit, 0, controller.signal);
           setPokemonList(data.results);
-        }
       } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : 'Failed to load Pokémon list');
+        if (err instanceof DOMException && err.name ==='AbortError') {
+          return;
         }
+        setError(err instanceof Error ? err.message : 'Failed to load Pokemon list');
       } finally {
-        if (!cancelled) {
+        if (!controller.signal.aborted) {
           setLoading(false);
         }
       }
@@ -38,7 +38,7 @@ export function usePokemonList(limit = 151): UsePokemonListResult {
     fetchList();
 
     return () => {
-      cancelled = true;
+      controller.abort();
     };
   }, [limit]);
 

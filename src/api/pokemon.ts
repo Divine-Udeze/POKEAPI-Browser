@@ -2,10 +2,14 @@ import type { PokemonListResponse, PokemonDetail } from '../types/pokemon';
 
 const BASE_URL = 'https://pokeapi.co/api/v2';
 
-export async function getPokemonList(limit = 20, offset = 0): Promise<PokemonListResponse> {
-  const response = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`);
+export async function getPokemonList(
+  limit = 20,
+  offset = 0,
+  signal?: AbortSignal
+): Promise<PokemonListResponse> {
+  const response = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`, { signal });
   if (!response.ok) {
-    throw new Error(`Failed to fetch Pokémon list: ${response.status}`);
+    throw new Error('Failed to fetch Pokemon list: ${response.status}');
   }
   return response.json();
 }
