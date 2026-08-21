@@ -17,20 +17,21 @@ export function usePokemonDetail(name: string | null): UsePokemonDetailResult {
     if (!name) {
       return;
     }
-
+const currentName = name;
     let cancelled = false;
 
     async function fetchDetail() {
       setLoading(true);
       setError(null);
+      setPokemon(null);
       try {
-        const data = await getPokemonDetail(name as string);
+        const data = await getPokemonDetail(currentName);
         if (!cancelled) {
           setPokemon(data);
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : `Failed to load ${name}`);
+          setError(err instanceof Error ? err.message : `Failed to load ${currentName}`);
         }
       } finally {
         if (!cancelled) {
