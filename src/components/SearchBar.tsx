@@ -7,6 +7,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
   return (
     <input
       type="text"
+      aria-label="Search Pokemon"
       placeholder="Search Pokémon..."
       value={value}
       onChange={(e) => onChange(e.target.value)}
