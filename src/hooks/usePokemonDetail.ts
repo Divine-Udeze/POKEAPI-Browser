@@ -18,23 +18,22 @@ export function usePokemonDetail(name: string | null): UsePokemonDetailResult {
       return;
     }
 const currentName = name;
-    let cancelled = false;
+const controller = new AbortController();
 
     async function fetchDetail() {
       setLoading(true);
       setError(null);
       setPokemon(null);
       try {
-        const data = await getPokemonDetail(currentName);
-        if (!cancelled) {
+        const data = await getPokemonDetail(currentName, controller.signal);
           setPokemon(data);
-        }
       } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : `Failed to load ${currentName}`);
+        if (err instanceof DOMException && err.name === 'AbortError' ) {
+          return
         }
+          setError(err instanceof Error ? err.message : `Failed to load ${currentName}`);
       } finally {
-        if (!cancelled) {
+        if (!controller.signal.aborted) {
           setLoading(false);
         }
       }
@@ -43,7 +42,7 @@ const currentName = name;
     fetchDetail();
 
     return () => {
-      cancelled = true;
+      controller.abort();
     };
   }, [name]);
 
