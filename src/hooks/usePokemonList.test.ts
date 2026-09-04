@@ -44,7 +44,7 @@ describe('usePokemonList', () => {
   });
 
   it('sets an error message when the fetch fails', async () => {
-    global.fetch = vi.fn(() =>
+    globalThis.fetch = vi.fn(() =>
       Promise.resolve({
         ok: false,
         status: 500,

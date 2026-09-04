@@ -9,7 +9,7 @@ export async function getPokemonList(
 ): Promise<PokemonListResponse> {
   const response = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`, { signal });
   if (!response.ok) {
-    throw new Error('Failed to fetch Pokemon list: ${response.status}');
+    throw new Error('Failed to fetch Pokémon list: ${response.status}');
   }
   return response.json();
 }
