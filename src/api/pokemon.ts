@@ -14,8 +14,8 @@ export async function getPokemonList(
   return response.json();
 }
 
-export async function getPokemonDetail(name: string): Promise<PokemonDetail> {
-  const response = await fetch(`${BASE_URL}/pokemon/${name}`);
+export async function getPokemonDetail(name: string, signal?: AbortSignal): Promise<PokemonDetail> {
+  const response = await fetch(`${BASE_URL}/pokemon/${name}`, { signal });
   if (!response.ok) {
     throw new Error(`Failed to fetch Pokémon detail for "${name}": ${response.status}`);
   }
