@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { usePokemonList } from './hooks/usePokemonList';
 import { usePokemonDetail } from './hooks/usePokemonDetail';
 import { SearchBar } from './components/SearchBar';
@@ -13,7 +13,11 @@ function App() {
     () => pokemonList.filter((p) => p.name.includes(search.toLowerCase())),
     [pokemonList, search]
   );
-
+useEffect(() => {
+  if (selected && !filtered.some((p) => p.name === selected)) {
+    setSelected(null)
+  }
+}, [filtered, selected]);
   const { pokemon: detail, loading: detailLoading, error: detailError } = usePokemonDetail(selected);
 
   if (loading) return <p className="text-center mt-10">Loading Pokémon...</p>;
@@ -36,6 +40,13 @@ function App() {
 
       {selected && (
         <div className="mt-8 max-w-md mx-auto bg-white rounded-lg shadow p-6">
+          <button
+          onClick={() => setSelected(null)}
+          aria-label="Close detail view"
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl leading-none"
+          >
+            &times;
+          </button>
           {detailLoading && <p>Loading details...</p>}
           {detailError && <p className="text-red-600">{detailError}</p>}
           {detail && (
