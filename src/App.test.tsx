@@ -36,7 +36,7 @@ describe('App', () => {
     render(<App />);
 
     const user = userEvent.setup();
-    const input = await screen.findByRole('textbox');
+    const input = await screen.findByRole('textbox', { name: /search pokemon/i });
     await user.type(input, 'zzzzz');
 
     expect(screen.getByText('No Pokémon found.')).toBeInTheDocument();

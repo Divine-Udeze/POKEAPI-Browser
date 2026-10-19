@@ -26,6 +26,7 @@ export function LoginForm({ onLoggedIn }: { onLoggedIn: () => void }) {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
+        aria-label="Username"
         required
         className="rounded border px-3 py-2"
       />
